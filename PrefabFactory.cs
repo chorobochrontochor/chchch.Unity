@@ -18,12 +18,12 @@ namespace chchch
             return instance;
         }
 
-        public static GameObject Create(GameObject p_prefab, Vector3 p_position, Quaternion p_rotation, GameObject p_parent = null)
+        public static GameObject Create(GameObject p_prefab, Vector3 p_position, Quaternion p_rotation, GameObject p_parent)
         {
             return Create(p_prefab, p_position, p_rotation, p_parent.transform);
         }
 
-        public static GameObject Create(GameObject p_prefab, Vector3 p_position, Quaternion p_rotation, Component p_parent = null)
+        public static GameObject Create(GameObject p_prefab, Vector3 p_position, Quaternion p_rotation, Component p_parent)
         {
             return Create(p_prefab, p_position, p_rotation, p_parent.transform);
         }
