@@ -7,29 +7,38 @@ namespace chchch
     public static class CoroutineManager
     {
         private class _coroutineBehaviour : MonoBehaviour { };
+
         private static _coroutineBehaviour _monoBehaviour;
 
+        private static _coroutineBehaviour coroutineBehaviour
+        {
+            get
+            {
+                if (_monoBehaviour == null)
+                {
+                    GameObject gameObject = new GameObject(typeof(TweenManager).Name);
+                    gameObject.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.DontSave;
+                    Object.DontDestroyOnLoad(gameObject);
+                    _monoBehaviour = gameObject.AddComponent<_coroutineBehaviour>();
+                }
+
+                return _monoBehaviour;
+            }
+        }
+        
         public static Coroutine Start(IEnumerator p_enumerator)
         {
-            if (_monoBehaviour == null)
-            {
-                GameObject gameObject = new GameObject(typeof(CoroutineManager).Name);
-                gameObject.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.DontSave;
-                Object.DontDestroyOnLoad(gameObject);
-                _monoBehaviour = gameObject.AddComponent<_coroutineBehaviour>();
-            }
-
-            return _monoBehaviour.StartCoroutine(p_enumerator);
+            return coroutineBehaviour.StartCoroutine(p_enumerator);
         }
 
         public static void Kill(Coroutine p_coroutine)
         {
-            _monoBehaviour.StopCoroutine(p_coroutine);
+            coroutineBehaviour.StopCoroutine(p_coroutine);
         }
 
         public static void KillAll()
         {
-            _monoBehaviour.StopAllCoroutines();
+            coroutineBehaviour.StopAllCoroutines();
         }
     }
 }
