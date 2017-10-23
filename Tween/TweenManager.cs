@@ -1,45 +1,26 @@
 ﻿using chchch;
+using chchch.Easing;
+using chchch.Time;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Tween
 {
-    public delegate void TweenCallback(double p_position);
-
-    public interface ITween
-    {
-        ITween OnStart(TweenCallback p_onStart);
-
-        ITween OnStep(TweenCallback p_onStep);
-
-        ITween OnFinish(TweenCallback p_onFinish);
-
-        ITween Start();
-
-        ITween Restart();
-
-        ITween Pause();
-
-        ITween Resume();
-
-        ITween Finish();
-    }
-    
     public static class TweenManager
     {
         private class Tween : ITween
         {
             private _updateBehaviour _updateBehaviour;
-            private EasingFunctions.EasingFunction _easingFunction;
-            private ITimeStamp _timeStamp;
+            private Ch3EasingFunctionDelegate _easingFunction;
+            private Ch3ITimeStamp _timeStamp;
             private double _duration;
             private bool _isActive;
             private bool _lastStep;
 
-            private TweenCallback _onStart;
-            private TweenCallback _onStep;
-            private TweenCallback _onFinish;
+            private Callback _onStart;
+            private Callback _onStep;
+            private Callback _onFinish;
 
             private bool isFinished
             {
@@ -57,10 +38,10 @@ namespace chchch
                 }
             }
 
-            public Tween(_updateBehaviour p_updateBehaviour, EasingFunctions.EasingFunction p_easingFunction, double p_duration)
+            public Tween(_updateBehaviour p_updateBehaviour, Ch3EasingFunctionDelegate p_easingFunction, double p_duration)
             {
                 _updateBehaviour = p_updateBehaviour;
-                _timeStamp = TimeManager.CreateTimeStamp();
+                _timeStamp = Ch3TimeManager.CreateTimeStamp();
                 _easingFunction = p_easingFunction;
 
                 _duration = p_duration == 0 ? 0.00000001 : p_duration;
@@ -88,21 +69,21 @@ namespace chchch
                 }
             }
 
-            public ITween OnStart(TweenCallback p_onStart)
+            public ITween OnStart(Callback p_onStart)
             {
                 _onStart = p_onStart;
 
                 return this;
             }
 
-            public ITween OnStep(TweenCallback p_onStep)
+            public ITween OnStep(Callback p_onStep)
             {
                 _onStep = p_onStep;
 
                 return this;
             }
 
-            public ITween OnFinish(TweenCallback p_onFinish)
+            public ITween OnFinish(Callback p_onFinish)
             {
                 _onFinish = p_onFinish;
 
@@ -121,7 +102,7 @@ namespace chchch
 
             public ITween Restart()
             {
-                _timeStamp = TimeManager.CreateTimeStamp();
+                _timeStamp = Ch3TimeManager.CreateTimeStamp();
 
                 activate();
                 
@@ -226,7 +207,7 @@ namespace chchch
             }
         }
         
-        public static ITween CreateTween(EasingFunctions.EasingFunction p_easingFunction, double p_duration)
+        public static ITween CreateTween(Ch3EasingFunctionDelegate p_easingFunction, double p_duration)
         {
             return new Tween(updateBehaviour, p_easingFunction, p_duration);
         }

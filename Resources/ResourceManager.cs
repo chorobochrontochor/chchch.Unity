@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Resources
 {
-    public static class ResourceManager
+    public static class Ch3ResourceManager
     {
         private static Dictionary<string, Object> _cache = new Dictionary<string, Object>();
         private static Dictionary<string, Object> _jsonCache = new Dictionary<string, Object>();
@@ -13,12 +13,12 @@ namespace chchch
         {
             foreach (Object resource in _cache.Values)
             {
-                Resources.UnloadAsset(resource);
+                UnityEngine.Resources.UnloadAsset(resource);
             }
 
             foreach (Object resource in _jsonCache.Values)
             {
-                Resources.UnloadAsset(resource);
+                UnityEngine.Resources.UnloadAsset(resource);
             }
 
             _cache.Clear();
@@ -36,7 +36,7 @@ namespace chchch
 
             _cache.TryGetValue(resourceId, out resource);
 
-            Resources.UnloadAsset(resource);
+            UnityEngine.Resources.UnloadAsset(resource);
             _cache.Remove(resourceId);
         }
 
@@ -52,7 +52,7 @@ namespace chchch
         {
             if (!_cache.ContainsKey(resourceId))
             {
-                _cache.Add(resourceId, Resources.Load<T>(resourceId));
+                _cache.Add(resourceId, UnityEngine.Resources.Load<T>(resourceId));
             }
 
             return (T) _cache[resourceId];
@@ -62,7 +62,7 @@ namespace chchch
         {
             if (!_jsonCache.ContainsKey(resourceId))
             {
-                TextAsset loadedResource = Resources.Load<TextAsset>(resourceId);
+                TextAsset loadedResource = UnityEngine.Resources.Load<TextAsset>(resourceId);
 
                 if (loadedResource == null)
                 {
@@ -73,7 +73,7 @@ namespace chchch
                     _jsonCache.Add(resourceId, JsonUtility.FromJson<T>(loadedResource.text));
                 }
 
-                Resources.UnloadAsset(loadedResource);
+                UnityEngine.Resources.UnloadAsset(loadedResource);
             }
 
             return (T) _jsonCache[resourceId];

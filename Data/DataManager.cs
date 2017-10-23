@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chchch.Debug;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,9 +7,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Data
 {
-    public static class DataManager
+    public static class Ch3DataManager
     {
         [DllImport("__Internal")]
         private static extern void SyncFiles();
@@ -42,7 +43,7 @@ namespace chchch
             }
             catch (Exception exception)
             {
-                Logger.DebugLogError(exception.Message);
+                Ch3Logger.DebugLogError(exception.Message);
             }
 
             p_callback(success);
@@ -71,7 +72,7 @@ namespace chchch
             }
             catch (Exception exception)
             {
-                Logger.DebugLogError(exception.Message);
+                Ch3Logger.DebugLogError(exception.Message);
             }
 
             p_callback(result != null, result);

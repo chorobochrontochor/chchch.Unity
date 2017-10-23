@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Factory
 {
-    public static class PrefabFactory
+    public static class Ch3PrefabFactory
     {
         public static GameObject Create(GameObject p_prefab, Vector3 p_position, Quaternion p_rotation, Transform p_parent = null)
         {

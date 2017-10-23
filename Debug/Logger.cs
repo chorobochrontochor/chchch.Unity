@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace chchch
+namespace chchch.Debug
 {
-    public static class Logger
+    public static class Ch3Logger
     {
         [System.Diagnostics.ConditionalAttribute("DEBUG")]
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]

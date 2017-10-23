@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Invoke
 {
-    public static class CoroutineManager
+    public static class Ch3CoroutineManager
     {
         private class _coroutineBehaviour : MonoBehaviour { };
 
@@ -16,12 +16,12 @@ namespace chchch
             {
                 if (_monoBehaviour == null)
                 {
-                    GameObject gameObject = new GameObject(typeof(TweenManager).Name);
+                    GameObject gameObject = new GameObject(typeof(Ch3CoroutineManager).Name);
                     gameObject.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.DontSave;
                     Object.DontDestroyOnLoad(gameObject);
                     _monoBehaviour = gameObject.AddComponent<_coroutineBehaviour>();
                 }
-
+                
                 return _monoBehaviour;
             }
         }

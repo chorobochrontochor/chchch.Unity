@@ -1,21 +1,14 @@
-﻿using System.Collections;
+﻿using chchch.Easing;
+using chchch.Tween;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace chchch
+namespace chchch.Time
 {
-    public interface ITimeStamp
+    public static class Ch3TimeManager
     {
-        float ScaledTimePassed { get; }
-
-        float ScaledFixedTimePassed { get; }
-
-        float RealTimePassed { get; }
-    }
-
-    public static class TimeManager
-    {
-        private class TimeStamp : ITimeStamp
+        private class TimeStamp : Ch3ITimeStamp
         {
             private float _scaledTime;
             private float _scaledFixedTime;
@@ -23,16 +16,16 @@ namespace chchch
 
             public TimeStamp()
             {
-                _scaledTime = Time.time;
-                _scaledFixedTime = Time.fixedTime;
-                _realTime = Time.unscaledTime;
+                _scaledTime = UnityEngine.Time.time;
+                _scaledFixedTime = UnityEngine.Time.fixedTime;
+                _realTime = UnityEngine.Time.unscaledTime;
             }
 
             public float ScaledTimePassed
             {
                 get
                 {
-                    return Time.time - _scaledTime;
+                    return UnityEngine.Time.time - _scaledTime;
                 }
             }
 
@@ -40,7 +33,7 @@ namespace chchch
             {
                 get
                 {
-                    return Time.fixedTime - _scaledFixedTime;
+                    return UnityEngine.Time.fixedTime - _scaledFixedTime;
                 }
             }
 
@@ -48,7 +41,7 @@ namespace chchch
             {
                 get
                 {
-                    return Time.unscaledTime - _realTime;
+                    return UnityEngine.Time.unscaledTime - _realTime;
                 }
             }
         }
@@ -62,13 +55,13 @@ namespace chchch
         {
             get
             {
-                return Time.timeScale;
+                return UnityEngine.Time.timeScale;
             }
             set
             {
                 stopTimeScaleTween();
 
-                Time.timeScale = value;
+                UnityEngine.Time.timeScale = value;
             }
         }
 
@@ -81,22 +74,22 @@ namespace chchch
             }
         }
 
-        public static void TweenTimeScale(EasingFunctions.EasingFunction p_easingFunction, double p_from, double p_to, double p_duration)
+        public static void TweenTimeScale(Ch3EasingFunctionDelegate p_easingFunction, double p_from, double p_to, double p_duration)
         {
             stopTimeScaleTween();
 
-            Time.timeScale = (float) p_from;
+            UnityEngine.Time.timeScale = (float) p_from;
 
             _timeScaleTween = TweenManager.CreateTween(p_easingFunction, p_duration).OnStep((double p_value) => {
 
-                Time.timeScale = (float) (p_from + (p_to - p_from) * p_value);
+                UnityEngine.Time.timeScale = (float) (p_from + (p_to - p_from) * p_value);
             }).OnFinish((double p_value) => {
 
-                Time.timeScale = (float) p_to;
+                UnityEngine.Time.timeScale = (float) p_to;
             }).Start();
         }
 
-        public static ITimeStamp CreateTimeStamp()
+        public static Ch3ITimeStamp CreateTimeStamp()
         {
             return new TimeStamp();
         }
@@ -105,7 +98,7 @@ namespace chchch
         {
             get
             {
-                return Time.time;
+                return UnityEngine.Time.time;
             }
         }
 
@@ -113,7 +106,7 @@ namespace chchch
         {
             get
             {
-                return Time.fixedTime;
+                return UnityEngine.Time.fixedTime;
             }
         }
 
@@ -121,7 +114,7 @@ namespace chchch
         {
             get
             {
-                return Time.unscaledTime;
+                return UnityEngine.Time.unscaledTime;
             }
         }
     }

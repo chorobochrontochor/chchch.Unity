@@ -2,18 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace chchch
+namespace chchch.Events
 {
     [Serializable]
-    public abstract class Event { };
+    public abstract class Ch3Event { };
 
-    public static class EventManager
+    public static class Ch3EventManager
     {
-        public delegate void EventDelegate<T>(T p_event) where T : Event;
+        public delegate void EventDelegate<T>(T p_event) where T : Ch3Event;
         private static Dictionary<Type, Delegate> _eventHandlers = new Dictionary<Type, Delegate>();
-        private static EventDelegate<Event> _globalEventHandler = delegate { };
+        private static EventDelegate<Ch3Event> _globalEventHandler = delegate { };
 
-        public static void DispatchEvent<T>(T p_event) where T : Event
+        public static void DispatchEvent<T>(T p_event) where T : Ch3Event
         {
             Delegate eventHandler;
 
@@ -27,7 +27,7 @@ namespace chchch
             _globalEventHandler(p_event);
         }
 
-        public static void HookEvent<T>(EventDelegate<T> p_eventHandler) where T : Event
+        public static void HookEvent<T>(EventDelegate<T> p_eventHandler) where T : Ch3Event
         {
             Type eventType = typeof(T);
             Delegate eventHandler;
@@ -44,7 +44,7 @@ namespace chchch
             }
         }
 
-        public static void UnhookEvent<T>(EventDelegate<T> p_eventHandler) where T : Event
+        public static void UnhookEvent<T>(EventDelegate<T> p_eventHandler) where T : Ch3Event
         {
             Type eventType = typeof(T);
             Delegate eventHandler;
@@ -62,12 +62,12 @@ namespace chchch
             }
         }
 
-        public static void HookGlobal(EventDelegate<Event> p_eventHandler)
+        public static void HookGlobal(EventDelegate<Ch3Event> p_eventHandler)
         {
             _globalEventHandler += p_eventHandler;
         }
 
-        public static void UnhookGlobal(EventDelegate<Event> p_eventHandler)
+        public static void UnhookGlobal(EventDelegate<Ch3Event> p_eventHandler)
         {
             _globalEventHandler -= p_eventHandler;
         }
