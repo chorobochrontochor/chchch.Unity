@@ -25,58 +25,58 @@ namespace chchch.Resources
             _jsonCache.Clear();
         }
 
-        public static void Preload<T>(string resourceId) where T : Object
+        public static void Preload<T>(string p_resourceId) where T : Object
         {
-            Load<T>(resourceId);
+            Load<T>(p_resourceId);
         }
 
-        public static void Release(string resourceId)
+        public static void Release(string p_resourceId)
         {
             Object resource;
 
-            _cache.TryGetValue(resourceId, out resource);
+            _cache.TryGetValue(p_resourceId, out resource);
 
             UnityEngine.Resources.UnloadAsset(resource);
-            _cache.Remove(resourceId);
+            _cache.Remove(p_resourceId);
         }
 
-        public static void Release(IEnumerable<string> resourceIds)
+        public static void Release(IEnumerable<string> p_resourceIds)
         {
-            foreach (string resourceId in resourceIds)
+            foreach (string resourceId in p_resourceIds)
             {
                 Release(resourceId);
             }
         }
 
-        public static T Load<T>(string resourceId) where T : Object
+        public static T Load<T>(string p_resourceId) where T : Object
         {
-            if (!_cache.ContainsKey(resourceId))
+            if (!_cache.ContainsKey(p_resourceId))
             {
-                _cache.Add(resourceId, UnityEngine.Resources.Load<T>(resourceId));
+                _cache.Add(p_resourceId, UnityEngine.Resources.Load<T>(p_resourceId));
             }
 
-            return (T) _cache[resourceId];
+            return (T) _cache[p_resourceId];
         }
 
-        public static T LoadJSON<T>(string resourceId) where T : Object
+        public static T LoadJSON<T>(string p_resourceId) where T : Object
         {
-            if (!_jsonCache.ContainsKey(resourceId))
+            if (!_jsonCache.ContainsKey(p_resourceId))
             {
-                TextAsset loadedResource = UnityEngine.Resources.Load<TextAsset>(resourceId);
+                TextAsset loadedResource = UnityEngine.Resources.Load<TextAsset>(p_resourceId);
 
                 if (loadedResource == null)
                 {
-                    _jsonCache.Add(resourceId, null);
+                    _jsonCache.Add(p_resourceId, null);
                 }
                 else
                 {
-                    _jsonCache.Add(resourceId, JsonUtility.FromJson<T>(loadedResource.text));
+                    _jsonCache.Add(p_resourceId, JsonUtility.FromJson<T>(loadedResource.text));
                 }
 
                 UnityEngine.Resources.UnloadAsset(loadedResource);
             }
 
-            return (T) _jsonCache[resourceId];
+            return (T) _jsonCache[p_resourceId];
         }
     }
 }
