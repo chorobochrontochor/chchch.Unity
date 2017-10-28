@@ -80,7 +80,7 @@ namespace chchch.Time
 
             UnityEngine.Time.timeScale = (float) p_from;
 
-            _timeScaleTween = TweenManager.CreateTween(p_easingFunction, p_duration).OnStep((double p_value) => {
+            _timeScaleTween = Ch3TweenManager.CreateTween(p_easingFunction, p_duration).OnStep((double p_value) => {
 
                 UnityEngine.Time.timeScale = (float) (p_from + (p_to - p_from) * p_value);
             }).OnFinish((double p_value) => {
@@ -117,5 +117,7 @@ namespace chchch.Time
                 return UnityEngine.Time.unscaledTime;
             }
         }
+
+        public static object TweenManager { get; private set; }
     }
 }

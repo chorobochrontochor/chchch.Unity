@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace chchch.Tween
 {
-    public static class TweenManager
+    public static class Ch3TweenManager
     {
         private class Tween : ITween
         {
@@ -197,7 +197,7 @@ namespace chchch.Tween
             {
                 if (_monoBehaviour == null)
                 {
-                    GameObject gameObject = new GameObject(typeof(TweenManager).Name);
+                    GameObject gameObject = new GameObject(typeof(Ch3TweenManager).Name);
                     gameObject.hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector | HideFlags.DontSave;
                     Object.DontDestroyOnLoad(gameObject);
                     _monoBehaviour = gameObject.AddComponent<_updateBehaviour>();
