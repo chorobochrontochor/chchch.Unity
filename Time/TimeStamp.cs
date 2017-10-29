@@ -11,5 +11,7 @@ namespace chchch.Time
         float ScaledFixedTimePassed { get; }
 
         float RealTimePassed { get; }
+
+        float GetTimePassed(Ch3TimeType p_time);
     }
 }

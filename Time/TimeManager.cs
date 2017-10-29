@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace chchch.Time
 {
+    public enum Ch3TimeType { SCALED, SCALED_FIXED, REAL };
     public static class Ch3TimeManager
     {
         private class TimeStamp : Ch3ITimeStamp
@@ -43,6 +44,26 @@ namespace chchch.Time
                 {
                     return UnityEngine.Time.unscaledTime - _realTime;
                 }
+            }
+
+            public float GetTimePassed(Ch3TimeType p_time)
+            {
+                if (p_time == Ch3TimeType.SCALED)
+                {
+                    return ScaledTimePassed;
+                }
+
+                if (p_time == Ch3TimeType.SCALED_FIXED)
+                {
+                    return ScaledFixedTimePassed;
+                }
+
+                if (p_time == Ch3TimeType.REAL)
+                {
+                    return RealTimePassed;
+                }
+
+                return 0;
             }
         }
 
@@ -102,7 +123,7 @@ namespace chchch.Time
             }
         }
 
-        public static float FixedScaledTimePassed
+        public static float ScaledFixedTimePassed
         {
             get
             {
@@ -118,6 +139,24 @@ namespace chchch.Time
             }
         }
 
-        public static object TweenManager { get; private set; }
+        public static float GetTimePassed(Ch3TimeType p_time)
+        {
+            if (p_time == Ch3TimeType.SCALED)
+            {
+                return ScaledTimePassed;
+            }
+
+            if (p_time == Ch3TimeType.SCALED_FIXED)
+            {
+                return ScaledFixedTimePassed;
+            }
+
+            if (p_time == Ch3TimeType.REAL)
+            {
+                return RealTimePassed;
+            }
+
+            return 0;
+        }
     }
 }
