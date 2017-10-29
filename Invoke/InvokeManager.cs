@@ -17,6 +17,7 @@ namespace chchch.Invoke
             private bool _isScheduled;
             private bool _isRepeating;
             private float _delay;
+            private Ch3TimeType _timeType;
 
             public Ch3Invoke(_fixedUpdateBehaviour p_fixedUpdateBehaviour, System.Action p_action)
             {
@@ -26,6 +27,7 @@ namespace chchch.Invoke
                 _isScheduled = false;
                 _isRepeating = false;
                 _delay = MIN_DELAY;
+                _timeType = Ch3TimeType.SCALED_FIXED;
             }
 
             private void cancel()
@@ -63,24 +65,26 @@ namespace chchch.Invoke
                 }
             }
 
-            public void Schedule(float p_delay, bool p_repeat = false)
+            public void Schedule(float p_delay, Ch3TimeType p_timeType = Ch3TimeType.SCALED_FIXED, bool p_repeat = false)
             {
                 if (!IsScheduled)
                 {
                     _scheduleTimeStamp = Ch3TimeManager.CreateTimeStamp();
                 }
-                
-                _delay = (p_delay < MIN_DELAY) ? MIN_DELAY : p_delay;
+
                 _isRepeating = p_repeat;
+                _delay = (p_delay < MIN_DELAY) ? MIN_DELAY : p_delay;
+                _timeType = p_timeType;
 
                 schedule();
             }
 
-            public void Debounce(float p_delay, bool p_repeat = false)
+            public void Debounce(float p_delay, Ch3TimeType p_timeType = Ch3TimeType.SCALED_FIXED, bool p_repeat = false)
             {
                 _scheduleTimeStamp = Ch3TimeManager.CreateTimeStamp();
-                _delay = (p_delay < MIN_DELAY) ? MIN_DELAY : p_delay;
                 _isRepeating = p_repeat;
+                _delay = (p_delay < MIN_DELAY) ? MIN_DELAY : p_delay;
+                _timeType = p_timeType;
 
                 schedule();
             }
@@ -113,7 +117,7 @@ namespace chchch.Invoke
             {
                 get
                 {
-                    return ShouldExecute ? 0 : (_delay - _scheduleTimeStamp.ScaledTimePassed);
+                    return ShouldExecute ? 0 : (_delay - _scheduleTimeStamp.GetTimePassed(TimeType));
                 }
             }
 
@@ -157,7 +161,15 @@ namespace chchch.Invoke
             {
                 get
                 {
-                    return _scheduleTimeStamp.ScaledTimePassed >= _delay;
+                    return _scheduleTimeStamp.GetTimePassed(TimeType) >= _delay;
+                }
+            }
+
+            public Ch3TimeType TimeType
+            {
+                get
+                {
+                    return _timeType;
                 }
             }
         }
@@ -171,7 +183,7 @@ namespace chchch.Invoke
         {
             private List<Ch3Invoke> _executables = new List<Ch3Invoke>();
 
-            public void FixedUpdate()
+            public void Update()
             {
                 for (int i = _executables.Count - 1; i >= 0; i--)
                 {
