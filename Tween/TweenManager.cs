@@ -44,7 +44,7 @@ namespace chchch.Tween
                 _timeStamp = Ch3TimeManager.CreateTimeStamp();
                 _easingFunction = p_easingFunction;
 
-                _duration = p_duration == 0 ? 0.00000001 : p_duration;
+                _duration = p_duration == 0 ? double.Epsilon : p_duration;
                 _lastStep = false;
                 _isActive = false;
             }
